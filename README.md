@@ -1,10 +1,18 @@
-# Getting Started with Create React App
+# This app will introduce a dental office inventory working with a personal API, steps for development will be stated below:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Clear files with no use, set up routes for existing and to buy items. Each route will display 2 sections which will be for personal practice items and general items within the office.
 
-## Available Scripts
+## Set repository and deploy to heroku, this app will build with every commit
 
 In the project directory, you can run:
+
+### Set up global variables through reducers
+
+####Set up authentication
+
+Set up authentication service wortking with the API
+
+#### Set up components for items with corresponding HTTP routes within API
 
 ### `npm start`
 
