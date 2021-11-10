@@ -4,12 +4,15 @@ import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import { BrowserRouter } from "react-router-dom"
+import { InventoryProvider } from "./Context/InventoryContext"
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <InventoryProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </InventoryProvider>
   </React.StrictMode>,
   document.getElementById("root")
 )

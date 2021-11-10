@@ -14,12 +14,17 @@ const HeaderWrapper = styled.header`
 `
 
 const MainWrapper = styled.main`
-  margin-left: 23%;
+  margin-left: 20%;
+  padding-left: 2.5em;
 `
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   vertical-align: center;
+
+  &:link {
+    color: inherit;
+  }
 
   &:visited {
     color: inherit;
