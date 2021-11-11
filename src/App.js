@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 import Navbar from "./Components/Layout"
 import ExistingStock from "./Routes/Existing_Stock"
-import Home from "./Routes/Home"
+import Home from "./Routes/Login"
 import BuyStock from "./Routes/To_Buy_Stock"
 
 function App() {

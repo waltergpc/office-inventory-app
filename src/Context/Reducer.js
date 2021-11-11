@@ -9,9 +9,6 @@ const Reducer = (state, action) => {
     case "REGISTER_ERROR":
       return { ...state, isLoading: false, user: null, showAlert: true }
 
-    case "LOGIN":
-      return { ...state, user: action.payload }
-
     case "LOGOUT":
       return {
         ...state,

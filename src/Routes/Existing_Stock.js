@@ -1,7 +1,15 @@
 import React from "react"
+import { useInventory } from "../Context/InventoryContext"
+import { Navigate } from "react-router-dom"
 
 const ExistingStock = () => {
-  return <div>This is your stock on office now!</div>
+  const { state } = useInventory()
+
+  if (!state.user) {
+    return <Navigate to="/" />
+  }
+
+  return <div>Current Stock for {state.user}</div>
 }
 
 export default ExistingStock

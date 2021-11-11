@@ -16,6 +16,7 @@ const initialState = {
 
 export const InventoryProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, initialState)
+  console.log(state)
 
   const setLoading = () => {
     dispatch({ type: "SET_LOADING" })
@@ -38,8 +39,26 @@ export const InventoryProvider = ({ children }) => {
     }
   }
 
+  const login = async (user) => {
+    setLoading()
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        { ...user }
+      )
+      console.log(data)
+      dispatch({ type: "REGISTER_SUCCESS", payload: data.user.user })
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ name: data.user.name, token: data.user.token })
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <InventoryContext.Provider value={{ state, register }}>
+    <InventoryContext.Provider value={{ state, register, login }}>
       {children}
     </InventoryContext.Provider>
   )

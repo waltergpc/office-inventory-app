@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import { useInventory } from "../Context/InventoryContext"
 
-const Home = () => {
-  const { register } = useInventory()
+const LoginPage = () => {
+  const { register, login } = useInventory()
   const [loginUser, setLoginUser] = useState({ email: "", password: "" })
   const [registerUser, setRegisterUser] = useState({
     name: "",
@@ -20,12 +20,14 @@ const Home = () => {
 
   const submitLogin = (e) => {
     e.preventDefault()
-    console.log(loginUser)
+    login({ ...loginUser })
+    setLoginUser({ email: "", password: "" })
   }
 
   const submitRegister = (e) => {
     e.preventDefault()
     register({ ...registerUser })
+    setRegisterUser({ name: "", email: "", password: "" })
   }
   return (
     <FormsWrapper>
@@ -127,4 +129,4 @@ const FormsWrapper = styled.div`
   }
 `
 
-export default Home
+export default LoginPage
