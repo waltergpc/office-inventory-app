@@ -1,6 +1,8 @@
 import React, { useReducer, createContext, useContext } from "react"
 import { Reducer } from "./Reducer"
 import axios from "axios"
+import "../axios"
+import { useNavigate } from "react-router-dom"
 
 const InventoryContext = createContext()
 
@@ -17,6 +19,7 @@ const initialState = {
 export const InventoryProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, initialState)
   console.log(state)
+  let navigate = useNavigate()
 
   const setLoading = () => {
     dispatch({ type: "SET_LOADING" })
@@ -32,7 +35,7 @@ export const InventoryProvider = ({ children }) => {
       dispatch({ type: "REGISTER_SUCCESS", payload: data.user.name })
       localStorage.setItem(
         "user",
-        JSON.stringify({ name: data.user.name, token: data.user.token })
+        JSON.stringify({ name: data.user.user, token: data.user.token })
       )
     } catch (error) {
       console.log(error)
@@ -46,19 +49,67 @@ export const InventoryProvider = ({ children }) => {
         "http://localhost:5000/api/v1/auth/login",
         { ...user }
       )
-      console.log(data)
       dispatch({ type: "REGISTER_SUCCESS", payload: data.user.user })
       localStorage.setItem(
         "user",
-        JSON.stringify({ name: data.user.name, token: data.user.token })
+        JSON.stringify({ name: data.user.user, token: data.user.token })
       )
+      navigate("/stock")
     } catch (error) {
       console.log(error)
     }
   }
 
+  const fetchStockItems = async () => {
+    setLoading()
+    const { data } = await axios.get("http://localhost:5000/api/v1/items")
+    dispatch({ type: "GET_STOCK_ITEMS_SUCCESS", payload: data })
+  }
+
+  const createStockItem = async (input) => {
+    setLoading()
+    const { data } = await axios.post("http://localhost:5000/api/v1/items", {
+      ...input,
+    })
+    console.log(data)
+    if (data.item.generalInput === false) {
+      dispatch({ type: "ADD_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
+    } else if (data.item.generalInput === true) {
+      dispatch({ type: "ADD_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
+    }
+  }
+
+  const deleteStockItem = async (id) => {
+    setLoading()
+    await axios.delete(`http://localhost:5000/api/v1/items/${id}`)
+    fetchStockItems()
+  }
+
+  const editStockItem = async (id, userInput) => {
+    setLoading()
+    const { data } = await axios.patch(
+      `http://localhost:5000/api/v1/items/${id}`,
+      { ...userInput }
+    )
+    if (data.item.generalInput === false) {
+      dispatch({ type: "EDIT_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
+    } else if (data.item.generalInput === true) {
+      dispatch({ type: "EDIT_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
+    }
+  }
+
   return (
-    <InventoryContext.Provider value={{ state, register, login }}>
+    <InventoryContext.Provider
+      value={{
+        ...state,
+        register,
+        login,
+        fetchStockItems,
+        createStockItem,
+        deleteStockItem,
+        editStockItem,
+      }}
+    >
       {children}
     </InventoryContext.Provider>
   )

@@ -8,11 +8,11 @@ import { InventoryProvider } from "./Context/InventoryContext"
 
 ReactDOM.render(
   <React.StrictMode>
-    <InventoryProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <InventoryProvider>
         <App />
-      </BrowserRouter>
-    </InventoryProvider>
+      </InventoryProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 )

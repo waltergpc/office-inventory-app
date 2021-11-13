@@ -1,15 +1,34 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useInventory } from "../Context/InventoryContext"
-import { Navigate } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
+import StockItems from "../Components/StockItems"
+import ItemForm from "../Components/ItemForm"
+import ItemTitles from "../Components/ItemHeaders"
 
 const ExistingStock = () => {
-  const { state } = useInventory()
+  const { user, fetchStockItems } = useInventory()
+  const { id } = useParams()
 
-  if (!state.user) {
+  useEffect(() => {
+    fetchStockItems()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (!user) {
     return <Navigate to="/" />
   }
 
-  return <div>Current Stock for {state.user}</div>
+  if (id) {
+    return <ItemForm />
+  }
+
+  return (
+    <div>
+      <ItemForm />
+      <ItemTitles />
+      <StockItems />
+    </div>
+  )
 }
 
 export default ExistingStock

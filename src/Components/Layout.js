@@ -52,15 +52,14 @@ const StyledElement = styled.li`
 `
 
 const Navbar = ({ children }) => {
-  const { state } = useInventory()
-  console.log(state)
+  const { user } = useInventory()
 
   return (
     <div>
       <HeaderWrapper>
         <h1>Office Inventory</h1>
         <nav>
-          {!state.user ? (
+          {!user ? (
             <StyledList>
               <StyledElement>
                 <StyledLink to="/">Home</StyledLink>

@@ -21,11 +21,56 @@ const Reducer = (state, action) => {
     case "GET_STOCK_ITEMS_SUCCESS":
       return { ...state, isLoading: false, stockItems: action.payload }
 
-    case "ADD_STOCK_ITEM_SUCCESS":
+    case "ADD_OWNSTOCK_ITEM_SUCCESS":
       return {
         ...state,
         isLoading: false,
-        stockItems: [...state.stockItems, action.payload],
+        stockItems: {
+          ...state.stockItems,
+          ownItems: [...state.stockItems.ownItems, action.payload],
+        },
+      }
+
+    case "ADD_COMMONSTOCK_ITEM_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        stockItems: {
+          ...state.stockItems,
+          commonItems: [...state.stockItems.ownItems, action.payload],
+        },
+      }
+
+    case "EDIT_OWNSTOCK_ITEM_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        stockItems: {
+          ...state.stockItems,
+          ownItems: [
+            ...state.stockItems.ownItems.map((item) =>
+              item._id === action.payload._id
+                ? { ...item, ...action.payload }
+                : item
+            ),
+          ],
+        },
+      }
+
+    case "EDIT_COMMONSTOCK_ITEM_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        stockItems: {
+          ...state.stockItems,
+          commonItems: [
+            ...state.commonItems.map((item) =>
+              item._id === action.payload._id
+                ? { ...item, ...action.payload }
+                : item
+            ),
+          ],
+        },
       }
 
     default:
