@@ -30,7 +30,7 @@ const Wrapper = styled.section`
   }
 `
 
-const BuyStock = () => {
+const ExistingStock = () => {
   const { user, fetchStockItems, toggleOwn, showOwn } = useInventory()
   const { id } = useParams()
 
@@ -50,7 +50,7 @@ const BuyStock = () => {
   return (
     <Wrapper>
       <div className="upper-div">
-        <h2>To buy</h2>
+        <h2>Existing Stock</h2>
         <button className="toggle-button" onClick={() => toggleOwn()}>
           {showOwn ? "See common" : "See own"}
         </button>
@@ -61,4 +61,5 @@ const BuyStock = () => {
     </Wrapper>
   )
 }
-export default BuyStock
+
+export default ExistingStock

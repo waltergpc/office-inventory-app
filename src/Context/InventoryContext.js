@@ -14,6 +14,7 @@ const initialState = {
   stockItems: [],
   missingItems: [],
   showAlert: false,
+  showOwn: true,
 }
 
 export const InventoryProvider = ({ children }) => {
@@ -63,7 +64,13 @@ export const InventoryProvider = ({ children }) => {
   const fetchStockItems = async () => {
     setLoading()
     const { data } = await axios.get("http://localhost:5000/api/v1/items")
+    console.log(data)
     dispatch({ type: "GET_STOCK_ITEMS_SUCCESS", payload: data })
+  }
+
+  const toggleOwn = () => {
+    setLoading()
+    dispatch({ type: "TOGGLE_COMMON" })
   }
 
   const createStockItem = async (input) => {
@@ -72,10 +79,23 @@ export const InventoryProvider = ({ children }) => {
       ...input,
     })
     console.log(data)
-    if (data.item.generalInput === false) {
+    if ((data.item.generalInput === false) & (data.item.missing === false)) {
       dispatch({ type: "ADD_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
-    } else if (data.item.generalInput === true) {
+    } else if (
+      (data.item.generalInput === true) &
+      (data.item.missing === false)
+    ) {
       dispatch({ type: "ADD_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
+    } else if (
+      (data.item.generalInput === false) &
+      (data.item.missing === true)
+    ) {
+      dispatch({ type: "ADD_OWNMISSING_ITEM_SUCCESS", payload: data.item })
+    } else if (
+      (data.item.generalInput === true) &
+      (data.item.missing === true)
+    ) {
+      dispatch({ type: "ADD_COMMONMISSING_ITEM_SUCCESS", payload: data.item })
     }
   }
 
@@ -91,10 +111,23 @@ export const InventoryProvider = ({ children }) => {
       `http://localhost:5000/api/v1/items/${id}`,
       { ...userInput }
     )
-    if (data.item.generalInput === false) {
+    if ((data.item.generalInput === false) & (data.item.missing === false)) {
       dispatch({ type: "EDIT_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
-    } else if (data.item.generalInput === true) {
+    } else if (
+      (data.item.generalInput === true) &
+      (data.item.missing === false)
+    ) {
       dispatch({ type: "EDIT_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
+    } else if (
+      (data.item.generalInput === false) &
+      (data.item.missing === true)
+    ) {
+      dispatch({ type: "EDIT_OWNMISSING_ITEM_SUCCESS", payload: data.item })
+    } else if (
+      (data.item.generalInput === true) &
+      (data.item.missing === true)
+    ) {
+      dispatch({ type: "EDIT_COMMONMISSING_ITEM_SUCCESS", payload: data.item })
     }
   }
 
@@ -108,6 +141,7 @@ export const InventoryProvider = ({ children }) => {
         createStockItem,
         deleteStockItem,
         editStockItem,
+        toggleOwn,
       }}
     >
       {children}

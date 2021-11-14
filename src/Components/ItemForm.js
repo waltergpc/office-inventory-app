@@ -1,12 +1,48 @@
 import React, { useState, useEffect } from "react"
 import { useInventory } from "../Context/InventoryContext"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
 import "../axios"
+import styled from "styled-components"
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgba(214, 214, 214, 0.78);
+  padding: 0.5em;
+  border-radius: 5%;
+  .legend {
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+  .item-input {
+    width: 15%;
+    margin: 0.5em;
+    height: 2em;
+  }
+  .submit-button {
+    border: 0.2em teal solid;
+    padding: 0.7em;
+    border-radius: 5%;
+    background-color: rgb(240, 238, 238);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+    &:hover {
+      color: white;
+      background-color: teal;
+      transform: scale(1.1);
+    }
+  }
+`
 
 const ItemForm = () => {
   const { createStockItem, editStockItem } = useInventory()
   let navigate = useNavigate()
+  let location = useLocation()
+  console.log(location)
   const [newItem, setNewItem] = useState({
     name: "",
     brand: "",
@@ -34,21 +70,31 @@ const ItemForm = () => {
   }
 
   const handleSubmit = (e) => {
-    if (!paramsId) {
+    if (!paramsId & (location.pathname === "/stock")) {
       e.preventDefault()
       createStockItem(newItem)
       setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
-    } else {
+    } else if (paramsId & location.pathname.startsWith("/stock")) {
       e.preventDefault()
       editStockItem(paramsId, newItem)
       setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
       navigate("/stock")
+    } else if (!paramsId & (location.pathname === "buy")) {
+      e.preventDefault()
+      setNewItem({ ...newItem, missing: true })
+      createStockItem(newItem)
+      setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
+    } else if (paramsId & location.pathname.startsWith("/buy")) {
+      e.preventDefault()
+      editStockItem(paramsId, newItem)
+      setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
+      navigate("/buy")
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      Register an Item
+    <StyledForm onSubmit={handleSubmit}>
+      <p className="legend">Register an item</p>
       <input
         type="text"
         placeholder="Item name"
@@ -85,7 +131,7 @@ const ItemForm = () => {
       <button className="submit-button" type="submit">
         Save
       </button>
-    </form>
+    </StyledForm>
   )
 }
 

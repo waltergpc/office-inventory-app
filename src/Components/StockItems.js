@@ -4,7 +4,7 @@ import { useInventory } from "../Context/InventoryContext"
 import styled from "styled-components"
 import { TiDelete } from "react-icons/ti"
 import { AiOutlineEdit } from "react-icons/ai"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 const SyledArticle = styled.article`
   display: grid;
@@ -16,7 +16,7 @@ const SyledArticle = styled.article`
   border-radius: 3%;
   box-shadow: 1px 1px lightslategray;
   align-items: center;
-  background-color: rgba(55, 70, 1, 0.4);
+  background-color: rgba(194, 204, 167, 0.5);
   color: rgb(0, 4, 77);
 
   .action-button {
@@ -36,20 +36,36 @@ const SyledArticle = styled.article`
 `
 
 const StockItems = () => {
-  const { stockItems, deleteStockItem } = useInventory()
-  const { ownItems } = stockItems
+  let location = useLocation()
+  console.log(location.pathname)
+  const { stockItems, deleteStockItem, showOwn, missingItems } = useInventory()
+  const { ownItems, commonItems } = stockItems
+  const { ownMissing, commonMissing } = missingItems
+  console.log(ownMissing, commonMissing)
 
-  if (!ownItems) {
+  if (!ownItems & !ownMissing) {
     return <pre>Loading...</pre>
   }
 
-  if (ownItems.length < 1) {
-    return <div>No items in stock</div>
+  let displayItems
+
+  if (showOwn & (location.pathname === "/stock")) {
+    displayItems = ownItems
+  } else if (!showOwn & (location.pathname === "/stock")) {
+    displayItems = commonItems
+  } else if (showOwn & (location.pathname === "/buy")) {
+    displayItems = ownMissing
+  } else if (!showOwn & (location.pathname === "/buy")) {
+    displayItems = commonMissing
+  }
+
+  if (displayItems.length < 1) {
+    return <p>No items to show</p>
   }
 
   return (
     <div>
-      {ownItems.map((item) => {
+      {displayItems.map((item) => {
         const { _id: id, name, brand, updatedAt, quantity } = item
         let date = moment(updatedAt)
         date = date.format("L")
