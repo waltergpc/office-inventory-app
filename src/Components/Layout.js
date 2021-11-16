@@ -15,7 +15,7 @@ const HeaderWrapper = styled.header`
 `
 
 const MainWrapper = styled.main`
-  margin-left: 20%;
+  margin-left: 19%;
   padding-left: 2.5em;
 `
 
@@ -67,7 +67,7 @@ const Navbar = ({ children }) => {
   return (
     <div>
       <HeaderWrapper>
-        <h1>Office Inventory</h1>
+        <h1>Inventory App</h1>
         <nav>
           {!user ? (
             <StyledList>
@@ -75,7 +75,7 @@ const Navbar = ({ children }) => {
                 <StyledLink to="/">Home</StyledLink>
               </StyledElement>
               <StyledElement>
-                <StyledLink to="buy">Login</StyledLink>
+                <StyledLink to="login">Login</StyledLink>
               </StyledElement>
             </StyledList>
           ) : (

@@ -92,7 +92,7 @@ const ItemForm = () => {
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <p className="legend">Register an item</p>
+      <p className="legend">{paramsId ? "Update" : "Register and Item"}</p>
       <input
         type="text"
         placeholder="Item name"

@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useInventory } from "../Context/InventoryContext"
 
 const LoginPage = () => {
-  const { register, login } = useInventory()
+  const { register, login, showAlert } = useInventory()
   const [loginUser, setLoginUser] = useState({ email: "", password: "" })
   const [registerUser, setRegisterUser] = useState({
     name: "",
@@ -32,6 +32,7 @@ const LoginPage = () => {
   return (
     <FormsWrapper>
       <h2>Login or Register if you are a new user</h2>
+      {showAlert && <span>Authentication invalid, please try again</span>}
 
       <div className="form-container">
         <form className="user-form">

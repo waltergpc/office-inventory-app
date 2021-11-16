@@ -4,7 +4,12 @@ const Reducer = (state, action) => {
       return { ...state, isLoading: true }
 
     case "REGISTER_SUCCESS":
-      return { ...state, isLoading: false, user: action.payload }
+      return {
+        ...state,
+        showAlert: false,
+        isLoading: false,
+        user: action.payload,
+      }
 
     case "REGISTER_ERROR":
       return {

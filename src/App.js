@@ -3,6 +3,7 @@ import Navbar from "./Components/Layout"
 import Dashboard from "./Pages/Dashboard"
 import EditForm from "./Pages/EditForm"
 import ExistingStock from "./Pages/ExistingStock"
+import Home from "./Pages/Home"
 import Login from "./Pages/Login"
 import BuyStock from "./Pages/To_Buy_Stock"
 
@@ -10,7 +11,8 @@ function App() {
   return (
     <Navbar>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="login" element={<Login />} />
 
         <Route path="dashboard" element={<Dashboard />} />
 
