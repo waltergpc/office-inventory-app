@@ -1,7 +1,7 @@
 import React from "react"
 import moment from "moment"
 import { useInventory } from "../Context/InventoryContext"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { TiDelete } from "react-icons/ti"
 import { AiOutlineEdit } from "react-icons/ai"
 import { Link, useLocation } from "react-router-dom"
@@ -16,8 +16,30 @@ const SyledArticle = styled.article`
   border-radius: 3%;
   box-shadow: 1px 1px lightslategray;
   align-items: center;
-  background-color: rgba(194, 204, 167, 0.5);
   color: rgb(0, 4, 77);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+
+    .product-brand {
+      display: none;
+    }
+
+    .last-update {
+      display: none;
+    }
+  }
+
+  ${(props) =>
+    props.missing === false &&
+    css`
+      background: rgba(194, 204, 167, 0.5);
+    `}
+  ${(props) =>
+    props.missing === true &&
+    css`
+      background: rgba(205, 126, 126, 0.5);
+    `}
 
   .action-button {
     cursor: pointer;
@@ -37,15 +59,10 @@ const SyledArticle = styled.article`
 
 const StockItems = () => {
   let location = useLocation()
-  console.log(location.pathname)
-  const { stockItems, deleteStockItem, showOwn, missingItems } = useInventory()
+  const { stockItems, deleteStockItem, showOwn, missingItems, isLoading } =
+    useInventory()
   const { ownItems, commonItems } = stockItems
   const { ownMissing, commonMissing } = missingItems
-  console.log(ownMissing, commonMissing)
-
-  if (!ownItems & !ownMissing) {
-    return <pre>Loading...</pre>
-  }
 
   let displayItems
 
@@ -59,6 +76,10 @@ const StockItems = () => {
     displayItems = commonMissing
   }
 
+  if (!displayItems) {
+    return <p>loading...</p>
+  }
+
   if (displayItems.length < 1) {
     return <p>No items to show</p>
   }
@@ -66,11 +87,11 @@ const StockItems = () => {
   return (
     <div>
       {displayItems.map((item) => {
-        const { _id: id, name, brand, updatedAt, quantity } = item
+        const { _id: id, name, brand, updatedAt, quantity, missing } = item
         let date = moment(updatedAt)
         date = date.format("L")
         return (
-          <SyledArticle key={id} className="item">
+          <SyledArticle key={id} missing={missing}>
             <span className="product">{name.toLowerCase()}</span>
             <span className="product-brand">{brand}</span>
             <span className="quantity">{quantity}</span>
@@ -81,6 +102,7 @@ const StockItems = () => {
                 onClick={() => {
                   deleteStockItem(id)
                 }}
+                disabled={isLoading}
               >
                 <TiDelete />
               </button>

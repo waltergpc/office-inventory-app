@@ -1,19 +1,26 @@
 import { Routes, Route } from "react-router-dom"
 import Navbar from "./Components/Layout"
-import EditForm from "./Routes/EditForm"
-import ExistingStock from "./Routes/ExistingStock"
-import Home from "./Routes/Login"
-import BuyStock from "./Routes/To_Buy_Stock"
+import Dashboard from "./Pages/Dashboard"
+import EditForm from "./Pages/EditForm"
+import ExistingStock from "./Pages/ExistingStock"
+import Login from "./Pages/Login"
+import BuyStock from "./Pages/To_Buy_Stock"
 
 function App() {
   return (
     <Navbar>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+
+        <Route path="dashboard" element={<Dashboard />} />
+
         <Route path="stock" element={<ExistingStock />}>
           <Route path="edit/:id" element={<EditForm />} />
         </Route>
-        <Route path="buy" element={<BuyStock />} />
+
+        <Route path="buy" element={<BuyStock />}>
+          <Route path="edit/:id" element={<EditForm />} />
+        </Route>
       </Routes>
     </Navbar>
   )

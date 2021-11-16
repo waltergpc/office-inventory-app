@@ -39,7 +39,7 @@ export const InventoryProvider = ({ children }) => {
         JSON.stringify({ name: data.user.user, token: data.user.token })
       )
     } catch (error) {
-      console.log(error)
+      dispatch({ type: "REGISTER_ERROR" })
     }
   }
 
@@ -57,15 +57,25 @@ export const InventoryProvider = ({ children }) => {
       )
       navigate("/stock")
     } catch (error) {
-      console.log(error)
+      dispatch({ type: "REGISTER_ERROR" })
     }
   }
 
+  const logout = () => {
+    localStorage.removeItem("user")
+    dispatch({ type: "LOGOUT" })
+  }
+
   const fetchStockItems = async () => {
-    setLoading()
-    const { data } = await axios.get("http://localhost:5000/api/v1/items")
-    console.log(data)
-    dispatch({ type: "GET_STOCK_ITEMS_SUCCESS", payload: data })
+    try {
+      setLoading()
+      const { data } = await axios.get("http://localhost:5000/api/v1/items")
+      console.log(data)
+      dispatch({ type: "GET_STOCK_ITEMS_SUCCESS", payload: data })
+    } catch (error) {
+      dispatch({ type: "GET_STOCK_ITEMS_ERROR" })
+      logout()
+    }
   }
 
   const toggleOwn = () => {
@@ -74,61 +84,83 @@ export const InventoryProvider = ({ children }) => {
   }
 
   const createStockItem = async (input) => {
-    setLoading()
-    const { data } = await axios.post("http://localhost:5000/api/v1/items", {
-      ...input,
-    })
-    console.log(data)
-    if ((data.item.generalInput === false) & (data.item.missing === false)) {
-      dispatch({ type: "ADD_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
-    } else if (
-      (data.item.generalInput === true) &
-      (data.item.missing === false)
-    ) {
-      dispatch({ type: "ADD_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
-    } else if (
-      (data.item.generalInput === false) &
-      (data.item.missing === true)
-    ) {
-      dispatch({ type: "ADD_OWNMISSING_ITEM_SUCCESS", payload: data.item })
-    } else if (
-      (data.item.generalInput === true) &
-      (data.item.missing === true)
-    ) {
-      dispatch({ type: "ADD_COMMONMISSING_ITEM_SUCCESS", payload: data.item })
+    try {
+      setLoading()
+      const { data } = await axios.post("http://localhost:5000/api/v1/items", {
+        ...input,
+      })
+      console.log(data)
+      if ((data.item.generalInput === false) & (data.item.missing === false)) {
+        dispatch({ type: "ADD_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
+      } else if (
+        (data.item.generalInput === true) &
+        (data.item.missing === false)
+      ) {
+        dispatch({ type: "ADD_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
+      } else if (
+        (data.item.generalInput === false) &
+        (data.item.missing === true)
+      ) {
+        dispatch({ type: "ADD_OWNMISSING_ITEM_SUCCESS", payload: data.item })
+      } else if (
+        (data.item.generalInput === true) &
+        (data.item.missing === true)
+      ) {
+        dispatch({ type: "ADD_COMMONMISSING_ITEM_SUCCESS", payload: data.item })
+      }
+    } catch (error) {
+      dispatch({ type: "ITEM_OPERATION_ERROR" })
+      navigate("/dashboard")
     }
   }
 
   const deleteStockItem = async (id) => {
-    setLoading()
-    await axios.delete(`http://localhost:5000/api/v1/items/${id}`)
-    fetchStockItems()
+    try {
+      setLoading()
+      await axios.delete(`http://localhost:5000/api/v1/items/${id}`)
+      fetchStockItems()
+    } catch (error) {
+      dispatch({ type: "ITEM_OPERATION_ERROR" })
+      navigate("/dashboard")
+    }
   }
 
   const editStockItem = async (id, userInput) => {
-    setLoading()
-    const { data } = await axios.patch(
-      `http://localhost:5000/api/v1/items/${id}`,
-      { ...userInput }
-    )
-    if ((data.item.generalInput === false) & (data.item.missing === false)) {
-      dispatch({ type: "EDIT_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
-    } else if (
-      (data.item.generalInput === true) &
-      (data.item.missing === false)
-    ) {
-      dispatch({ type: "EDIT_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
-    } else if (
-      (data.item.generalInput === false) &
-      (data.item.missing === true)
-    ) {
-      dispatch({ type: "EDIT_OWNMISSING_ITEM_SUCCESS", payload: data.item })
-    } else if (
-      (data.item.generalInput === true) &
-      (data.item.missing === true)
-    ) {
-      dispatch({ type: "EDIT_COMMONMISSING_ITEM_SUCCESS", payload: data.item })
+    try {
+      setLoading()
+      const { data } = await axios.patch(
+        `http://localhost:5000/api/v1/items/${id}`,
+        { ...userInput }
+      )
+      if ((data.item.generalInput === false) & (data.item.missing === false)) {
+        dispatch({ type: "EDIT_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
+      } else if (
+        (data.item.generalInput === true) &
+        (data.item.missing === false)
+      ) {
+        dispatch({ type: "EDIT_COMMONSTOCK_ITEM_SUCCESS", payload: data.item })
+      } else if (
+        (data.item.generalInput === false) &
+        (data.item.missing === true)
+      ) {
+        dispatch({ type: "EDIT_OWNMISSING_ITEM_SUCCESS", payload: data.item })
+      } else if (
+        (data.item.generalInput === true) &
+        (data.item.missing === true)
+      ) {
+        dispatch({
+          type: "EDIT_COMMONMISSING_ITEM_SUCCESS",
+          payload: data.item,
+        })
+      }
+    } catch (error) {
+      dispatch({ type: "ITEM_OPERATION_ERROR" })
+      navigate("/dashboard")
     }
+  }
+
+  const toggleAlert = () => {
+    dispatch({ type: "TOGGLE_ALERT" })
   }
 
   return (
@@ -137,11 +169,13 @@ export const InventoryProvider = ({ children }) => {
         ...state,
         register,
         login,
+        logout,
         fetchStockItems,
         createStockItem,
         deleteStockItem,
         editStockItem,
         toggleOwn,
+        toggleAlert,
       }}
     >
       {children}

@@ -31,10 +31,7 @@ const LoginPage = () => {
   }
   return (
     <FormsWrapper>
-      <h2>
-        Welcome to your Office Inventory, Please login to access your stock or
-        Register to start saving your office supplies.
-      </h2>
+      <h2>Login or Register if you are a new user</h2>
 
       <div className="form-container">
         <form className="user-form">
@@ -114,7 +111,7 @@ const FormsWrapper = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 2%;
-    background-color: rgba(47, 116, 113, 0.9);
+    background-color: rgba(47, 116, 113, 0.8);
     color: white;
   }
 

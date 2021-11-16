@@ -9,16 +9,28 @@ const StyledTitles = styled.div`
   padding: 0.5em;
   background-color: rgba(131, 164, 184, 0.7);
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+
+    .brand-title {
+      display: none;
+    }
+
+    .update-title {
+      display: none;
+    }
+  }
 `
 
 const ItemTitles = () => {
   return (
     <StyledTitles>
-      <div>Name</div>
-      <div>Brand</div>
-      <div>Quantity</div>
-      <div>Last update</div>
-      <div>Delete/Edit?</div>
+      <div className="name-title">Name</div>
+      <div className="brand-title">Brand</div>
+      <div className="quantity-title">Quantity</div>
+      <div className="update-title">Last update</div>
+      <div className="buttons-title">Delete/Edit?</div>
     </StyledTitles>
   )
 }

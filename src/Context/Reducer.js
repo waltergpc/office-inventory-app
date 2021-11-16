@@ -7,7 +7,12 @@ const Reducer = (state, action) => {
       return { ...state, isLoading: false, user: action.payload }
 
     case "REGISTER_ERROR":
-      return { ...state, isLoading: false, user: null, showAlert: true }
+      return {
+        ...state,
+        isLoading: false,
+        user: null,
+        showAlert: true,
+      }
 
     case "LOGOUT":
       return {
@@ -38,6 +43,11 @@ const Reducer = (state, action) => {
           commonMissing: [...action.payload.commonMissing],
         },
       }
+    case "GET_STOCK_ITEMS_ERROR":
+      return {
+        ...state,
+        isLoading: false,
+      }
 
     case "ADD_OWNSTOCK_ITEM_SUCCESS":
       return {
@@ -64,7 +74,7 @@ const Reducer = (state, action) => {
         ...state,
         isLoading: false,
         missingItems: {
-          ...state.missingitems,
+          ...state.missingItems,
           ownMissing: [...state.missingItems.ownMissing, action.payload],
         },
       }
@@ -74,7 +84,7 @@ const Reducer = (state, action) => {
         ...state,
         isLoading: false,
         missingItems: {
-          ...state.missingitems,
+          ...state.missingItems,
           commonMissing: [...state.missingItems.commonMissing, action.payload],
         },
       }
@@ -141,6 +151,19 @@ const Reducer = (state, action) => {
             ),
           ],
         },
+      }
+
+    case "ITEM_OPERATION_ERROR":
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+      }
+
+    case "TOGGLE_ALERT":
+      return {
+        ...state,
+        showAlert: false,
       }
 
     default:

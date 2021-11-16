@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useInventory } from "../Context/InventoryContext"
 
 const HeaderWrapper = styled.header`
@@ -49,10 +49,20 @@ const StyledElement = styled.li`
   &:hover {
     background-color: rgb(43, 55, 78);
   }
+
+  .logout {
+    cursor: pointer;
+  }
 `
 
 const Navbar = ({ children }) => {
-  const { user } = useInventory()
+  let navigate = useNavigate()
+  const { user, logout } = useInventory()
+
+  const LogOut = () => {
+    logout()
+    navigate("/")
+  }
 
   return (
     <div>
@@ -65,19 +75,24 @@ const Navbar = ({ children }) => {
                 <StyledLink to="/">Home</StyledLink>
               </StyledElement>
               <StyledElement>
-                <StyledLink to="stock">Login</StyledLink>
+                <StyledLink to="buy">Login</StyledLink>
               </StyledElement>
             </StyledList>
           ) : (
             <StyledList>
               <StyledElement>
-                <StyledLink to="/">Home</StyledLink>
+                <StyledLink to="/dashboard">Dashboard</StyledLink>
               </StyledElement>
               <StyledElement>
                 <StyledLink to="stock">Existing Stock</StyledLink>
               </StyledElement>
               <StyledElement>
                 <StyledLink to="buy">To Buy</StyledLink>
+              </StyledElement>
+              <StyledElement>
+                <div className="logout" onClick={LogOut}>
+                  Logout
+                </div>
               </StyledElement>
             </StyledList>
           )}

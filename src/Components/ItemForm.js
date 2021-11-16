@@ -39,10 +39,9 @@ const StyledForm = styled.form`
 `
 
 const ItemForm = () => {
-  const { createStockItem, editStockItem } = useInventory()
+  const { createStockItem, editStockItem, isLoading } = useInventory()
   let navigate = useNavigate()
   let location = useLocation()
-  console.log(location)
   const [newItem, setNewItem] = useState({
     name: "",
     brand: "",
@@ -51,7 +50,12 @@ const ItemForm = () => {
   })
 
   const { id: paramsId } = useParams()
-  console.log(paramsId)
+  let afterEdit
+  if (location.pathname.startsWith("/stock")) {
+    afterEdit = "/stock"
+  } else {
+    afterEdit = "/buy"
+  }
 
   useEffect(() => {
     if (paramsId) {
@@ -74,21 +78,15 @@ const ItemForm = () => {
       e.preventDefault()
       createStockItem(newItem)
       setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
-    } else if (paramsId & location.pathname.startsWith("/stock")) {
+    } else if (!paramsId & (location.pathname === "/buy")) {
+      e.preventDefault()
+      createStockItem({ ...newItem, missing: true })
+      setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
+    } else if (paramsId) {
       e.preventDefault()
       editStockItem(paramsId, newItem)
       setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
-      navigate("/stock")
-    } else if (!paramsId & (location.pathname === "buy")) {
-      e.preventDefault()
-      setNewItem({ ...newItem, missing: true })
-      createStockItem(newItem)
-      setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
-    } else if (paramsId & location.pathname.startsWith("/buy")) {
-      e.preventDefault()
-      editStockItem(paramsId, newItem)
-      setNewItem({ name: "", brand: "", quantity: "", generalInput: false })
-      navigate("/buy")
+      navigate(afterEdit)
     }
   }
 
@@ -128,7 +126,11 @@ const ItemForm = () => {
         <option value={false}>Personal</option>
         <option value={true}>Common</option>
       </select>
-      <button className="submit-button" type="submit">
+      <button
+        className="submit-button"
+        type="submit"
+        disabled={isLoading || !newItem.name}
+      >
         Save
       </button>
     </StyledForm>
