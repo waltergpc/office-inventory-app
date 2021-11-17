@@ -60,9 +60,7 @@ const ItemForm = () => {
   useEffect(() => {
     if (paramsId) {
       const fetchSingleStockItem = async () => {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/v1/items/${paramsId}`
-        )
+        const { data } = await axios.get(`/items/${paramsId}`)
         setNewItem({ ...data.item })
       }
       fetchSingleStockItem()

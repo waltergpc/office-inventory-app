@@ -19,7 +19,7 @@ const Wrapper = styled.div`
       text-align: center;
       padding: 2em;
       margin: 2em;
-      background-color: rgba(81, 71, 71, 0.5);
+      background-color: rgba(3, 3, 3, 0.5);
       color: white;
     }
 

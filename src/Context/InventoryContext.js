@@ -29,15 +29,13 @@ export const InventoryProvider = ({ children }) => {
   const register = async (user) => {
     setLoading()
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
-        { ...user }
-      )
-      dispatch({ type: "REGISTER_SUCCESS", payload: data.user.name })
+      const { data } = await axios.post("/auth/register", { ...user })
+      dispatch({ type: "REGISTER_SUCCESS", payload: data.user.user })
       localStorage.setItem(
         "user",
         JSON.stringify({ name: data.user.user, token: data.user.token })
       )
+      navigate("/stock")
     } catch (error) {
       dispatch({ type: "REGISTER_ERROR" })
     }
@@ -46,10 +44,7 @@ export const InventoryProvider = ({ children }) => {
   const login = async (user) => {
     setLoading()
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
-        { ...user }
-      )
+      const { data } = await axios.post("/auth/login", { ...user })
       dispatch({ type: "REGISTER_SUCCESS", payload: data.user.user })
       localStorage.setItem(
         "user",
@@ -69,7 +64,7 @@ export const InventoryProvider = ({ children }) => {
   const fetchStockItems = async () => {
     try {
       setLoading()
-      const { data } = await axios.get("http://localhost:5000/api/v1/items")
+      const { data } = await axios.get("/items")
       console.log(data)
       dispatch({ type: "GET_STOCK_ITEMS_SUCCESS", payload: data })
     } catch (error) {
@@ -86,7 +81,7 @@ export const InventoryProvider = ({ children }) => {
   const createStockItem = async (input) => {
     try {
       setLoading()
-      const { data } = await axios.post("http://localhost:5000/api/v1/items", {
+      const { data } = await axios.post("/items", {
         ...input,
       })
       console.log(data)
@@ -117,7 +112,7 @@ export const InventoryProvider = ({ children }) => {
   const deleteStockItem = async (id) => {
     try {
       setLoading()
-      await axios.delete(`http://localhost:5000/api/v1/items/${id}`)
+      await axios.delete(`/items/${id}`)
       fetchStockItems()
     } catch (error) {
       dispatch({ type: "ITEM_OPERATION_ERROR" })
@@ -128,10 +123,7 @@ export const InventoryProvider = ({ children }) => {
   const editStockItem = async (id, userInput) => {
     try {
       setLoading()
-      const { data } = await axios.patch(
-        `http://localhost:5000/api/v1/items/${id}`,
-        { ...userInput }
-      )
+      const { data } = await axios.patch(`/items/${id}`, { ...userInput })
       if ((data.item.generalInput === false) & (data.item.missing === false)) {
         dispatch({ type: "EDIT_OWNSTOCK_ITEM_SUCCESS", payload: data.item })
       } else if (

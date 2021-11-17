@@ -30,6 +30,10 @@ const Wrapper = styled.section`
   }
 `
 
+const EditWrapper = styled.div`
+  padding: 20% 10%;
+`
+
 const ExistingStock = () => {
   const { user, fetchStockItems, toggleOwn, showOwn } = useInventory()
   const { id } = useParams()
@@ -44,7 +48,12 @@ const ExistingStock = () => {
   }
 
   if (id) {
-    return <ItemForm />
+    return (
+      <EditWrapper>
+        <h4>Edit your specifications please</h4>
+        <ItemForm />
+      </EditWrapper>
+    )
   }
 
   return (
