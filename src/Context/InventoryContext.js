@@ -19,7 +19,6 @@ const initialState = {
 
 export const InventoryProvider = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, initialState)
-  console.log(state)
   let navigate = useNavigate()
 
   const setLoading = () => {

@@ -75,7 +75,7 @@ const Navbar = ({ children }) => {
                 <StyledLink to="/">Home</StyledLink>
               </StyledElement>
               <StyledElement>
-                <StyledLink to="login">Login</StyledLink>
+                <StyledLink to="login">Sign In</StyledLink>
               </StyledElement>
             </StyledList>
           ) : (
