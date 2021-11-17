@@ -28,6 +28,13 @@ const Wrapper = styled.section`
       font-weight: bold;
     }
   }
+
+  @media (max-width: 750px) {
+    .upper-div {
+      flex-direction: column;
+      margin-bottom: 1em;
+    }
+  }
 `
 
 const EditWrapper = styled.div`

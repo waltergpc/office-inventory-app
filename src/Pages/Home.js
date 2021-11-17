@@ -28,6 +28,12 @@ const Wrapper = styled.div`
       width: 40%;
     }
   }
+
+  @media (max-width: 750px) {
+    .text {
+      font-size: 0.7rem;
+    }
+  }
 `
 
 const Home = () => {
@@ -45,10 +51,10 @@ const Home = () => {
         <div className="text">
           Made for office settings with small-medium number of employees.
           <br />
-          Use for Restaurants: use it to divide items in kitchen and
-          cleaning/maintenance. <br />
+          Use for Restaurants: use it to divide items in kitchen and cleaning or
+          maintenance. <br />
           Also useful for Health clinics: Appointement supplies and devices and
-          cleaning/maintenance/utilities.
+          cleaning or maintenance and utilities.
         </div>
         <div className="text">
           <img className="example-image" src={Exampleimg} alt="app example" />

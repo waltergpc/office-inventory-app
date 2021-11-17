@@ -12,6 +12,13 @@ const HeaderWrapper = styled.header`
   height: 100%;
   padding: 1em;
   color: white;
+
+  @media (max-width: 750px) {
+    width: 25%;
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
 `
 
 const MainWrapper = styled.main`

@@ -20,6 +20,7 @@ const SyledArticle = styled.article`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr;
+    font-size: 0.7rem;
 
     .product-brand {
       display: none;

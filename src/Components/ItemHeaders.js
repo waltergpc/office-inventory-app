@@ -12,6 +12,12 @@ const StyledTitles = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr;
+    font-size: 0.6rem;
+    margin: 0.2em;
+    padding: 0.2em;
+    width: 100%;
+    gap: 0.2em;
+    justify-items: start;
 
     .brand-title {
       display: none;

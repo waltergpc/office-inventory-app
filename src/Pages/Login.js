@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useInventory } from "../Context/InventoryContext"
 
 const LoginPage = () => {
-  const { register, login, showAlert } = useInventory()
+  const { register, login, showAlert, isLoading } = useInventory()
   const [loginUser, setLoginUser] = useState({ email: "", password: "" })
   const [registerUser, setRegisterUser] = useState({
     name: "",
@@ -53,7 +53,7 @@ const LoginPage = () => {
             value={loginUser.password}
             onChange={handleLoginChange}
           />
-          <button type="submit" onClick={submitLogin}>
+          <button type="submit" onClick={submitLogin} disabled={isLoading}>
             Submit
           </button>
         </form>
@@ -84,7 +84,7 @@ const LoginPage = () => {
             value={registerUser.password}
             onChange={handleRegisterChange}
           />
-          <button type="submit" onClick={submitRegister}>
+          <button type="submit" onClick={submitRegister} disabled={isLoading}>
             Register
           </button>
         </form>
@@ -124,6 +124,19 @@ const FormsWrapper = styled.div`
     width: 75%;
     margin: 0.5em;
     height: 2em;
+  }
+
+  @media (max-width: 750px) {
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+
+    .user-form {
+      width: 85%;
+      margin: 1em;
+    }
   }
 `
 

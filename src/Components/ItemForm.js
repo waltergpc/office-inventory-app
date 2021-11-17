@@ -13,6 +13,7 @@ const StyledForm = styled.form`
   background-color: rgba(214, 214, 214, 0.78);
   padding: 0.5em;
   border-radius: 5%;
+
   .legend {
     font-weight: bold;
     font-size: 0.8rem;
@@ -34,6 +35,18 @@ const StyledForm = styled.form`
       color: white;
       background-color: teal;
       transform: scale(1.1);
+    }
+  }
+
+  @media (max-width: 750px) {
+    flex-direction: column;
+
+    .item-input {
+      width: 70%;
+    }
+
+    .submit-button {
+      margin-top: 1em;
     }
   }
 `
