@@ -6,6 +6,7 @@ const Reducer = (state, action) => {
     case "REGISTER_SUCCESS":
       return {
         ...state,
+        errorMsg: null,
         showAlert: false,
         isLoading: false,
         user: action.payload,
@@ -17,6 +18,7 @@ const Reducer = (state, action) => {
         isLoading: false,
         user: null,
         showAlert: true,
+        errorMsg: action.payload,
       }
 
     case "LOGOUT":
@@ -169,6 +171,7 @@ const Reducer = (state, action) => {
       return {
         ...state,
         showAlert: false,
+        errorMsg: null,
       }
 
     default:

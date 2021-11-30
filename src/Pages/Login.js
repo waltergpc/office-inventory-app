@@ -1,15 +1,16 @@
-import React, { useState } from "react"
-import styled from "styled-components"
-import { useInventory } from "../Context/InventoryContext"
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { useInventory } from '../Context/InventoryContext'
 
 const LoginPage = () => {
-  const { register, login, showAlert, isLoading } = useInventory()
-  const [loginUser, setLoginUser] = useState({ email: "", password: "" })
+  const { register, login, showAlert, isLoading, errorMsg } = useInventory()
+  const [loginUser, setLoginUser] = useState({ email: '', password: '' })
   const [registerUser, setRegisterUser] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   })
+  console.log(showAlert, errorMsg)
   const handleLoginChange = (e) => {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value })
   }
@@ -21,70 +22,70 @@ const LoginPage = () => {
   const submitLogin = (e) => {
     e.preventDefault()
     login({ ...loginUser })
-    setLoginUser({ email: "", password: "" })
+    setLoginUser({ email: '', password: '' })
   }
 
   const submitRegister = (e) => {
     e.preventDefault()
     register({ ...registerUser })
-    setRegisterUser({ name: "", email: "", password: "" })
+    setRegisterUser({ name: '', email: '', password: '' })
   }
   return (
     <FormsWrapper>
       <h2>Login or Register if you are a new user</h2>
-      {showAlert && <span>Authentication invalid, please try again</span>}
+      {showAlert && <span className='login-error'>{errorMsg}</span>}
 
-      <div className="form-container">
-        <form className="user-form">
+      <div className='form-container'>
+        <form className='user-form'>
           <h3>If you have a user login!</h3>
           <input
-            type="email"
-            className="common-input"
-            name="email"
-            placeholder="enter your email please"
+            type='email'
+            className='common-input'
+            name='email'
+            placeholder='enter your email please'
             value={loginUser.email}
             onChange={handleLoginChange}
           />
           <input
-            type="password"
-            className="common-input"
-            name="password"
-            placeholder="enter your password"
+            type='password'
+            className='common-input'
+            name='password'
+            placeholder='enter your password'
             value={loginUser.password}
             onChange={handleLoginChange}
           />
-          <button type="submit" onClick={submitLogin} disabled={isLoading}>
+          <button type='submit' onClick={submitLogin} disabled={isLoading}>
             Submit
           </button>
         </form>
 
-        <form className="user-form">
+        <form className='user-form'>
           <h3>Register a new user</h3>
           <input
-            type="text"
-            className="common-input"
-            name="name"
-            placeholder="enter your name please"
+            type='text'
+            className='common-input'
+            name='name'
+            placeholder='enter your name please'
             value={registerUser.username}
             onChange={handleRegisterChange}
           />
           <input
-            type="email"
-            className="common-input"
-            name="email"
-            placeholder="enter a new email"
+            type='email'
+            className='common-input'
+            name='email'
+            placeholder='enter a new email'
             value={registerUser.email}
             onChange={handleRegisterChange}
           />
           <input
-            type="password"
-            className="common-input"
-            name="password"
-            placeholder="enter a new password"
+            type='password'
+            className='common-input'
+            name='password'
+            placeholder='enter a new password'
             value={registerUser.password}
             onChange={handleRegisterChange}
           />
-          <button type="submit" onClick={submitRegister} disabled={isLoading}>
+          <button type='submit' onClick={submitRegister} disabled={isLoading}>
             Register
           </button>
         </form>
@@ -124,6 +125,13 @@ const FormsWrapper = styled.div`
     width: 75%;
     margin: 0.5em;
     height: 2em;
+  }
+
+  .login-error {
+    font-weight: bold;
+    color: darkred;
+    border: 1px solid darkred;
+    padding: 0.2em;
   }
 
   @media (max-width: 750px) {
