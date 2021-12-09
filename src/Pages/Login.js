@@ -10,7 +10,7 @@ const LoginPage = () => {
     email: '',
     password: '',
   })
-  console.log(showAlert, errorMsg)
+
   const handleLoginChange = (e) => {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value })
   }
@@ -34,6 +34,7 @@ const LoginPage = () => {
     <FormsWrapper>
       <h2>Login or Register if you are a new user</h2>
       {showAlert && <span className='login-error'>{errorMsg}</span>}
+      {isLoading && <div className='loading'></div>}
 
       <div className='form-container'>
         <form className='user-form'>
