@@ -10,6 +10,7 @@ export const useInventory = () => useContext(InventoryContext)
 
 const initialState = {
   user: null,
+  sideBarOpen: false,
   isLoading: false,
   stockItems: [],
   missingItems: [],
@@ -24,6 +25,14 @@ export const InventoryProvider = ({ children }) => {
 
   const setLoading = () => {
     dispatch({ type: 'SET_LOADING' })
+  }
+
+  const openSideBar = () => {
+    dispatch({ type: 'OPEN_SIDEBAR' })
+  }
+
+  const closeSideBar = () => {
+    dispatch({ type: 'CLOSE_SIDEBAR' })
   }
 
   const register = async (user) => {
@@ -166,6 +175,8 @@ export const InventoryProvider = ({ children }) => {
     <InventoryContext.Provider
       value={{
         ...state,
+        openSideBar,
+        closeSideBar,
         register,
         login,
         logout,

@@ -1,9 +1,15 @@
 const Reducer = (state, action) => {
   switch (action.type) {
-    case "SET_LOADING":
+    case 'OPEN_SIDEBAR':
+      return { ...state, sideBarOpen: true }
+
+    case 'CLOSE_SIDEBAR':
+      return { ...state, sideBarOpen: false }
+
+    case 'SET_LOADING':
       return { ...state, isLoading: true }
 
-    case "REGISTER_SUCCESS":
+    case 'REGISTER_SUCCESS':
       return {
         ...state,
         errorMsg: null,
@@ -12,7 +18,7 @@ const Reducer = (state, action) => {
         user: action.payload,
       }
 
-    case "REGISTER_ERROR":
+    case 'REGISTER_ERROR':
       return {
         ...state,
         isLoading: false,
@@ -21,23 +27,24 @@ const Reducer = (state, action) => {
         errorMsg: action.payload,
       }
 
-    case "LOGOUT":
+    case 'LOGOUT':
       return {
         ...state,
         user: null,
         stockItems: [],
         missingItems: [],
         showAlert: false,
+        sideBarOpen: false,
       }
 
-    case "TOGGLE_COMMON":
+    case 'TOGGLE_COMMON':
       return {
         ...state,
         isLoading: false,
         showOwn: !state.showOwn,
       }
 
-    case "GET_STOCK_ITEMS_SUCCESS":
+    case 'GET_STOCK_ITEMS_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -50,13 +57,13 @@ const Reducer = (state, action) => {
           commonMissing: [...action.payload.commonMissing],
         },
       }
-    case "GET_STOCK_ITEMS_ERROR":
+    case 'GET_STOCK_ITEMS_ERROR':
       return {
         ...state,
         isLoading: false,
       }
 
-    case "ADD_OWNSTOCK_ITEM_SUCCESS":
+    case 'ADD_OWNSTOCK_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -66,7 +73,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "ADD_COMMONSTOCK_ITEM_SUCCESS":
+    case 'ADD_COMMONSTOCK_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -76,7 +83,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "ADD_OWNMISSING_ITEM_SUCCESS":
+    case 'ADD_OWNMISSING_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -86,7 +93,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "ADD_COMMONMISSING_ITEM_SUCCESS":
+    case 'ADD_COMMONMISSING_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -96,7 +103,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "EDIT_OWNSTOCK_ITEM_SUCCESS":
+    case 'EDIT_OWNSTOCK_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -112,7 +119,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "EDIT_COMMONSTOCK_ITEM_SUCCESS":
+    case 'EDIT_COMMONSTOCK_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -128,7 +135,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "EDIT_OWNMISSING_ITEM_SUCCESS":
+    case 'EDIT_OWNMISSING_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -144,7 +151,7 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "EDIT_COMMONMISSING_ITEM_SUCCESS":
+    case 'EDIT_COMMONMISSING_ITEM_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -160,14 +167,14 @@ const Reducer = (state, action) => {
         },
       }
 
-    case "ITEM_OPERATION_ERROR":
+    case 'ITEM_OPERATION_ERROR':
       return {
         ...state,
         isLoading: false,
         showAlert: true,
       }
 
-    case "TOGGLE_ALERT":
+    case 'TOGGLE_ALERT':
       return {
         ...state,
         showAlert: false,
