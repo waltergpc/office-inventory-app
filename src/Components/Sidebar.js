@@ -95,6 +95,7 @@ const SidebarContainer = styled.div`
     margin-bottom: 2rem;
     list-style: none;
   }
+  .logout,
   .links a {
     display: block;
     text-align: left;
@@ -106,8 +107,10 @@ const SidebarContainer = styled.div`
     transition: all 0.2s linear;
     text-decoration: none;
     width: 30%;
+    cursor: pointer;
   }
 
+  .logout:hover,
   .links a:hover {
     padding: 1rem 1.5rem;
     padding-left: 2rem;
