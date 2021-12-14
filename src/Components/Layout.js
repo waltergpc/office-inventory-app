@@ -75,7 +75,7 @@ const MainWrapper = styled.main`
   @media (max-width: 992px) {
     margin-left: 0;
     padding-left: 0;
-    margin-top: 7%;
+    margin-top: 13%;
   }
 `
 

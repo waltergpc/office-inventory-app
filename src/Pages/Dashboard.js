@@ -90,7 +90,9 @@ const Wrapper = styled.section`
   }
 
   @media (max-width: 800px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    padding: 1em;
+    margin: 0.5em;
 
     .upper {
       grid-column: 1 / 2;
